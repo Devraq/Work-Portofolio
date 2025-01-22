@@ -18,17 +18,17 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('articles.index') }}">Articles</a>
+                        <a class="nav-link" href="{{ route('articles.index') }}">Home</a>
                     </li>
                     @foreach ($categories as $category)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('articles.index', ['category' => $category->id]) }}">{{ $category->name }}</a>
                     </li>
                     @endforeach
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    </li>
                     @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('articles.create') }}">Create Article</a>
-                        </li>
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
@@ -45,6 +45,7 @@
                     @endauth
                 </ul>
             </div>
+            
         </div>
     </nav>
 

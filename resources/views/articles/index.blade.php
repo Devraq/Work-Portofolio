@@ -33,9 +33,8 @@
                     <a href="{{ route('articles.show', $article) }}" class="text-dark">{{ $article->title }}</a>
                 </h5>
                 <img src="{{ asset($article->image_url) }}" alt="article image" class="img-fluid">
-                <p class="mb-1 text-muted">by {{ $article->author }} | {{ $article->created_at->format('d M Y, H:i') }}</p>
-                <span> by {{ $article->author }} | Category: {{ $article->category->name }} | Published on {{ $article->created_at->format('d-m-Y H:i') }}</span>
-                <p>{{ \Illuminate\Support\Str::limit($article->content, 150) }}
+                <p class="mb-1 text-muted"> by {{ $article->author }} | {{ $article->category->name }} | Published on {{ $article->created_at->format('d-m-Y H:i') }}</p>
+                <p>{{ \Illuminate\Support\Str::limit($article->content, 200) }}
                     <a href="{{ route('articles.show', $article) }}" class="text-primary">Read More</a>
                 </p>
             </li>
