@@ -32,7 +32,7 @@
                 <h5>
                     <a href="{{ route('articles.show', $article) }}" class="text-dark">{{ $article->title }}</a>
                 </h5>
-                <img src="{{ asset($article->image_url) }}" alt="article image" class="img-fluid">
+                <img src="{{  $article->image_url ?? asset('storage/' . $article->image)  }}" alt="article image" class="img-fluid">
                 <p class="mb-1 text-muted"> by {{ $article->author }} | {{ $article->category->name }} | Published on {{ $article->created_at->format('d-m-Y H:i') }}</p>
                 <p>{{ \Illuminate\Support\Str::limit($article->content, 200) }}
                     <a href="{{ route('articles.show', $article) }}" class="text-primary">Read More</a>
