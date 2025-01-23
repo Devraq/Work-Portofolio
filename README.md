@@ -4,7 +4,7 @@ Features:
 1. CRUD functionality for articles
 2. Search
 3. Category filter
-4. Autherization
+4. Authorization
 
 Steps:
 1. cp .env.example .env
