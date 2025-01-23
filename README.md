@@ -6,6 +6,7 @@ Features:
 3. Category filter
 4. Autherization
 
+Steps:
 1. cp .env.example .env
 2. php artisan migrate
 3. php artisan db:seed
