@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Article::query();
-
-        if ($request->has('category')) {
+        $query = Article::query()->with('category');
+        $selectedCategory = null;
+        if ($request->filled('category')) {
+            $selectedCategory = Category::find($request->category);
             $query->where('category_id', $request->category);
         }
-        $articles = Article::latest()->paginate(10);
-        return view('articles.index', compact('articles'));
+        $articles = $query->latest()->paginate(10);
+        $categories = Category::all();
+        return view('articles.index', compact('articles','categories','selectedCategory'));
     }
 
     public function create()
@@ -57,23 +60,42 @@ class ArticleController extends Controller
     {
         return view('articles.show', compact('article'));
     }
-
     public function edit(Article $article)
-    {
-        return view('articles.edit', compact('article'));
+{
+    $categories = Category::all();
+    return view('articles.edit', compact('article', 'categories'));
+}
+
+public function update(Request $request, Article $article)
+{
+    $request->validate([
+        'title' => 'required|max:255',
+        'content' => 'required',
+        'author' => 'nullable|string|max:100',
+        'category_id' => 'required|exists:categories,id',
+        'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+    ]);
+
+    if ($request->hasFile('image')) {
+        if ($article->image) {
+            Storage::disk('public')->delete($article->image);
+        }
+        $imagePath = $request->file('image')->store('articles', 'public');
+        $article->image = $imagePath;
     }
 
-    public function update(Request $request, Article $article)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'category_id' => 'required|exists:categories,id',
-        ]);
-
-        $article->update($request->all());
-        return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
+    $article->update([
+        'title' => $request->title,
+        'content' => $request->content,
+        'author' => $request->author,
+        'category_id' => $request->category_id,
+    ]);
+    if (isset($imagePath)) {
+        $article->image = $imagePath;
+        $article->save();
     }
+    return redirect()->route('articles.show', $article)->with('success', 'Article updated successfully.');
+}
 
     public function destroy(Article $article)
     {

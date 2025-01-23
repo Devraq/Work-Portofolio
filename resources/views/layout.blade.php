@@ -18,29 +18,29 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('articles.index') }}">Home</a>
+                        <a class="nav-link fs-5" href="{{ route('articles.index') }}">Home</a>
                     </li>
                     @foreach ($categories as $category)
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('articles.index', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                        <a class="nav-link fs-5 {{ request('category') == $category->id ? 'active' : '' }}" href="{{ route('articles.index', ['category' => $category->id]) }}">{{ $category->name }}</a>
                     </li>
                     @endforeach
                     <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                            <a class="nav-link fs-5" href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
                     @auth
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+                                <button type="submit" class="btn btn-link nav-link fs-5">Logout</button>
                             </form>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Login</a>
+                            <a class="nav-link fs-5" href="{{ route('login') }}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Register</a>
+                            <a class="nav-link fs-5" href="{{ route('register') }}">Register</a>
                         </li>
                     @endauth
                 </ul>

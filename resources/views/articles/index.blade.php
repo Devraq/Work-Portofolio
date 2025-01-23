@@ -3,7 +3,12 @@
 @section('content')
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>News Articles</h1>
+        <h1>
+            News Articles
+            @if($selectedCategory)
+                <span class="text-muted">/ {{ $selectedCategory->name }}</span>
+            @endif
+        </h1>
         <a href="{{ route('articles.create') }}" class="btn btn-primary">Create Article</a>
     </div>
 
@@ -32,9 +37,9 @@
                 <h5>
                     <a href="{{ route('articles.show', $article) }}" class="text-dark">{{ $article->title }}</a>
                 </h5>
-                <img src="{{  $article->image_url ?? asset('storage/' . $article->image)  }}" alt="article image" class="img-fluid">
+                <img src="{{ $article->image ? asset('storage/' . $article->image) : $article->image_url}}" alt="article image" class="img-fluid">
                 <p class="mb-1 text-muted"> by {{ $article->author }} | {{ $article->category->name }} | Published on {{ $article->created_at->format('d-m-Y H:i') }}</p>
-                <p>{{ \Illuminate\Support\Str::limit($article->content, 200) }}
+                <p>{{ \Illuminate\Support\Str::limit($article->content, 330) }}
                     <a href="{{ route('articles.show', $article) }}" class="text-primary">Read More</a>
                 </p>
             </li>
