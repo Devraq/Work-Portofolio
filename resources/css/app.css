@@ -1,4 +1,408 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
 @import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Professional Portfolio Palette */
+:root {
+    --primary: #1a2238;      /* Deep navy */
+    --accent: #9daaf2;       /* Soft blue accent */
+    --highlight: #4194cb;    /* Warm gold highlight replaced with blue */
+    --surface: #f5f6fa;      /* Light background */
+    --surface-alt: #e5e9f2;  /* Slightly darker background */
+    --danger: #e94f37;       /* Portfolio red */
+}
+
+/* Navbar: deep navy, gold highlight on hover */
+.navbar, .navbar.container, .navbar .container {
+    background: var(--primary) !important;
+    box-shadow: 0 2px 16px rgba(26,34,56,0.10);
+    color: #fff !important;
+    border-radius: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.navbar {
+    min-height: 56px;
+    height: 64px !important;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+}
+.navbar .navbar-brand {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navbar .navbar-brand img {
+    height: 56px;
+    max-height: 56px;
+    width: auto;
+    max-width: 400px;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
+.navbar #profileDropdown img {
+    width: 40px !important;
+    height: 40px !important;
+    margin-left: 16px;
+    margin-right: 0;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(26,34,56,0.10);
+    position: relative;
+    top: 0;
+}
+.navbar .navbar-brand, .navbar .nav-link, .navbar .btn-link {
+    color: #fff !important;
+}
+.navbar .nav-link.active, .navbar .nav-link:focus, .navbar .nav-link:hover {
+    color: var(--highlight) !important;
+}
+.navbar .container {
+    min-height: 56px;
+    height: 64px;
+    display: flex !important;
+    align-items: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Body and heading styles */
+body {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-alt) 100%) !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary) !important;
+}
+
+/* Hamburger animation */
+.hamburger {
+    width: 32px;
+    height: 32px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    z-index: 1051;
+}
+.hamburger.navbar-toggler {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    margin-left: 0;
+    margin-right: 0;
+    position: relative;
+    top: 0;
+    padding: 0;
+}
+.hamburger-bar {
+    width: 28px;
+    left: 2px;
+    height: 4px;
+}
+.hamburger-bar {
+    display: block;
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    background: var(--highlight) !important;
+    border-radius: 2px;
+    opacity: 1;
+    left: 0;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1);
+}
+.hamburger-bar:nth-child(1) { top: 7px; }
+.hamburger-bar:nth-child(2) { top: 14px; }
+.hamburger-bar:nth-child(3) { top: 21px; }
+.hamburger.active .hamburger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active .hamburger-bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active .hamburger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Dropdown animation and palette */
+.dropdown-menu {
+    background: var(--primary) !important;
+    color: var(--accent) !important;
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    visibility: hidden;
+    pointer-events: none;
+    display: block;
+    text-align: left;
+}
+.dropdown-menu.show,
+.dropdown-menu.fading-out {
+    visibility: visible;
+    pointer-events: auto;
+    display: block;
+    text-align: left;
+}
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+.dropdown-menu.fading-out {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+}
+.dropdown-item {
+    color: var(--accent) !important;
+    background: transparent !important;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+    color: var(--highlight) !important;
+    background: rgba(157,170,242,0.08) !important;
+}
+
+/* Style everything inside .container, but not .navbar */
+.container:not(.navbar) {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(26,34,56,0.10);
+    padding: 2.5rem 2rem;
+    margin-bottom: 2rem;
+}
+.container:not(.navbar) h1, .container:not(.navbar) h2, .container:not(.navbar) h3, .container:not(.navbar) h4, .container:not(.navbar) h5, .container:not(.navbar) h6 {
+    color: var(--primary) !important;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+}
+.container:not(.navbar) label {
+    color: var(--primary) !important;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.container:not(.navbar) input[type="text"],
+.container:not(.navbar) input[type="email"],
+.container:not(.navbar) input[type="password"],
+.container:not(.navbar) input[type="file"],
+.container:not(.navbar) select,
+.container:not(.navbar) textarea {
+    border-radius: 8px !important;
+    border: 1px solid var(--surface-alt) !important;
+    background: var(--surface) !important;
+    color: var(--primary) !important;
+    box-shadow: none !important;
+    transition: border-color 0.2s;
+    margin-bottom: 1rem;
+}
+.container:not(.navbar) input:focus,
+.container:not(.navbar) select:focus,
+.container:not(.navbar) textarea:focus {
+    border-color: var(--accent) !important;
+    outline: none !important;
+    background: #fff !important;
+}
+.container:not(.navbar) .btn-success {
+    background: var(--primary) !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 2rem !important;
+    box-shadow: 0 2px 8px rgba(26,34,56,0.08) !important;
+    transition: background 0.2s;
+}
+.container:not(.navbar) .btn-success:hover,
+.container:not(.navbar) .btn-success:focus {
+    background: var(--highlight) !important;
+    color: var(--primary) !important;
+}
+.container:not(.navbar) .btn-secondary {
+    background: var(--surface-alt) !important;
+    color: var(--primary) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    margin-left: 0.5rem !important;
+    transition: background 0.2s;
+}
+.container:not(.navbar) .btn-secondary:hover,
+.container:not(.navbar) .btn-secondary:focus {
+    background: var(--accent) !important;
+    color: #fff !important;
+}
+.container:not(.navbar) .alert {
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+}
+.container:not(.navbar) form {
+    margin-top: 1.5rem !important;
+}
+.container:not(.navbar) .form-text {
+    color: var(--accent) !important;
+    font-size: 0.95rem !important;
+}
+
+/* Custom Edit and Delete button styles for article list */
+.btn-edit-custom {
+    background: var(--accent) !important;
+    color: var(--primary) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 0.4rem 1.5rem !important;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(26,34,56,0.06) !important;
+}
+.btn-edit-custom:hover, .btn-edit-custom:focus {
+    background: var(--highlight) !important;
+    color: var(--primary) !important;
+}
+.btn-delete-custom {
+    background: var(--danger) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 0.4rem 1.5rem !important;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(26,34,56,0.06) !important;
+}
+.btn-delete-custom:hover, .btn-delete-custom:focus {
+    background: #b92d1f !important;
+    color: #fff !important;
+}
+
+/* Custom Create Article and Search button styles */
+.btn-create-article, .btn-search, .btn-primary {
+    background: var(--accent) !important;
+    color: var(--primary) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 0.4rem 1.5rem !important;
+    min-width: 110px !important;
+    box-shadow: 0 2px 8px rgba(26,34,56,0.06) !important;
+    transition: background 0.2s, color 0.2s;
+    text-align: center !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
+}
+.btn-create-article:hover, .btn-create-article:focus,
+.btn-search:hover, .btn-search:focus,
+.btn-primary:hover, .btn-primary:focus {
+    background: var(--highlight) !important;
+    color: var(--primary) !important;
+}
+
+/* Force Edit and Delete buttons to be identical in size and display */
+.btn-edit-custom, .btn-delete-custom {
+    display: inline-block !important;
+    font-size: 1rem !important;
+    padding: 0.4rem 1.5rem !important;
+    min-width: 110px !important;
+    height: 40px !important;
+    max-height: 40px !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
+    min-height: 40px !important;
+}
+
+/* Fix Edit/Delete button height mismatch */
+.btn-edit-custom, .btn-delete-custom {
+    display: inline-block !important;
+    font-size: 1rem !important;
+    padding: 0.4rem 1.5rem !important;
+    min-width: 110px !important;
+    height: 40px !important;
+    max-height: 40px !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
+    min-height: 40px !important;
+}
+.d-flex.gap-2.mt-2 form {
+    display: contents !important;
+}
+
+/* Rain divider: subtle, professional */
+.rain-divider {
+    position: relative;
+    width: 100%;
+    height: 18px;
+    background: linear-gradient(to bottom, var(--primary) 60%, var(--surface-alt) 100%);
+    overflow: hidden;
+    z-index: 1;
+}
+.rain-divider::before, .rain-divider::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+}
+.rain-divider::before {
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--highlight) 0px,
+        var(--highlight) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+    opacity: 0.25;
+}
+.rain-divider::after {
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--accent) 0px,
+        var(--accent) 1.5px,
+        transparent 1.5px,
+        transparent 4px
+    );
+    opacity: 0.18;
+}
+
+/* Horizontal alignment for Edit/Delete buttons without flexbox sizing issues */
+.article-action-btns {
+    margin-top: 0.5rem;
+}
+.article-action-btns > a,
+.article-action-btns > form {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+.article-action-btns > form:last-child {
+    margin-right: 0;
+}
+
+/* Improved merge for search input and button */
+.input-group .form-control[type="text"] {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+    height: 48px !important;
+}
+.input-group .btn-search {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    margin-left: 0 !important;
+    border-left: none !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    box-shadow: none !important;
+}
+.input-group {
+    align-items: stretch !important;
+}

@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    /**
+     * Display a listing of the articles.
+     */
     public function index(Request $request)
     {
         $query = Article::query();
@@ -15,16 +18,22 @@ class ArticleController extends Controller
         if ($request->has('category')) {
             $query->where('category_id', $request->category);
         }
-        $articles = Article::latest()->paginate(10);
+        $articles = $query->latest()->paginate(10);
         return view('articles.index', compact('articles'));
     }
 
+    /**
+     * Show the form for creating a new article.
+     */
     public function create()
     {
         $categories = Category::all();
         return view('articles.create', compact('categories'));
     }
 
+    /**
+     * Store a newly created article in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -53,44 +62,60 @@ class ArticleController extends Controller
         return redirect()->route('articles.index')->with('success', 'Article created successfully!');
     }
 
-    public function show(Article $article)
-    {
-        return view('articles.show', compact('article'));
-    }
-
+    /**
+     * Show the form for editing the specified article.
+     */
     public function edit(Article $article)
     {
-        return view('articles.edit', compact('article'));
+        $categories = Category::all();
+        return view('articles.edit', compact('article', 'categories'));
     }
 
+    /**
+     * Update the specified article in storage.
+     */
     public function update(Request $request, Article $article)
     {
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
+            'author' => 'nullable|string|max:100',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
-        $article->update($request->all());
+        $imagePath = $article->image;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('articles', 'public');
+        }
+
+        $article->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'author' => $request->author,
+            'category_id' => $request->category_id,
+            'image' => $imagePath,
+        ]);
+
         return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
     }
 
+    /**
+     * Remove the specified article from storage.
+     */
     public function destroy(Article $article)
     {
         $article->delete();
         return redirect()->route('articles.index')->with('success', 'Article deleted successfully.');
     }
 
-    public function search(Request $request)
+    /**
+     * Display the specified article.
+     */
+    public function show($id)
     {
-        $query = $request->input('query');
-
-        // Search articles by title or content
-        $articles = Article::where('title', 'LIKE', "%$query%")
-            ->orWhere('content', 'LIKE', "%$query%")
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return view('articles.index', compact('articles', 'query'));
+        $article = Article::findOrFail($id);
+        return view('articles.show', compact('article'));
     }
 }
